@@ -1,0 +1,22 @@
+<% if( accountType  === "student"){ %>
+    <%- include('header1'); -%>
+<% }else{ %>
+    <%- include('header'); -%>
+<% } %>
+    <div class="container">
+        <h3><%= author %> <small> from <%= company %> </small></h3>
+        <h1><%= title %></h1>
+        <p><%= description %></p>
+        <button type="button" id="link" class="btn btn-primary" value="<%= link %>" onclick="redirect()" >Apply now</button>
+    </div>
+
+    <script>
+        function redirect(){
+            const post_link = document.getElementById("link").value;
+            location.href = post_link;
+        }
+    </script>
+
+
+
+    

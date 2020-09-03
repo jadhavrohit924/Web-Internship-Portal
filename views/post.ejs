@@ -1,0 +1,15 @@
+<%- include('header'); -%>
+
+    <div class="container ">
+        <form action="/post" method="post">
+            <label >Name</label> <br>
+            <input type="text" name="postTitle" class="form-control"><br>
+            <label >Description</label> <br>
+            <textarea name="postDescription" class="form-control" rows="6"></textarea> <br>
+            <label >Link</label> <br>
+            <input type="text" name="postLink" class="form-control"><br>
+            <button type="submit" class="btn btn-primary" name="submit" value="">Submit</button> 
+        </form>
+    </div>
+    
+    

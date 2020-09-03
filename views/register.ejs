@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InIntern</title>
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="style/styles.css" rel="stylesheet" type="text/css" >
+
+    <script>
+      function registerForm(x){
+          if(x==0)
+              document.getElementById("alu").style.display="";
+          else
+              document.getElementById("alu").style.display="none";    
+      }
+    </script>
+
+    <nav class="nav">
+      <div class="container-fluid bg-info text-center">
+          <h1>Register</h1>
+      </div>
+    </nav>
+
+</head>
+    
+<body>
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+          <!-- Tabs Titles -->
+      
+          <!-- Register Form -->
+          <form action="/register" method="post">
+            <input type="text" id="login" class="ip fadeIn second" name="email" placeholder="email">
+            <input type="password" id="password" class="ip fadeIn third" name="password" placeholder="password">
+            <input type="text" class="ip fadeIn third" name="name" placeholder="Your name"><br>
+            
+            <label class="pull-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Account:</label>
+            <input type="radio" class="fadeIn third text-center" name="account" onclick="registerForm(0)" value="alumina" checked><label>&nbsp; Alumina</label>
+            &nbsp; &nbsp; &nbsp;
+            <input type="radio" class="fadeIn third" name="account" onclick="registerForm(1)" value="student" ><label>&nbsp; Student</label><br>
+            <input type="text" id="alu" class="ip fadeIn third" name="company" placeholder="Company">
+            
+            <input type="submit" class="fadeIn fourth" value="Register" name="register">
+          </form>
+
+        </div>
+      </div>
+
+      
+<%- include('footer'); -%>
