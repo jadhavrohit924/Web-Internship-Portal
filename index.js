@@ -37,7 +37,13 @@ const postSchema = new mongoose.Schema({
     title: String,
     description: String,
     company: String,
-    link: String
+    link: String,
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment"
+      }
+    ]
 });
 
 const userSchema = new mongoose.Schema ({
@@ -47,12 +53,19 @@ const userSchema = new mongoose.Schema ({
     account: String,
     company: String
   });
+
+  const commentSchema = new mongoose.Schema({
+    text: String,
+    auther: String
+  });
   
 userSchema.plugin(passportLocalMongoose);
 
 const Post = new mongoose.model("Post", postSchema);
 
 const User = new mongoose.model("User", userSchema);
+
+const Comment = new mongoose.model("Comment", commentSchema);
 
 passport.use(User.createStrategy());
 
@@ -93,7 +106,11 @@ passport.deserializeUser(function(id, done) {
 /** get routes */
 
 app.get("/", function(req, res) {
+  if (req.isAuthenticated()){
+    res.redirect("/home");
+  }else{
     res.render("login");
+  }
 });
 
 /**GET REQUEST FOR HOME */
@@ -160,16 +177,12 @@ app.get("/post", function(req, res){
 app.get("/posts/:postId", function(req, res){
     const requestedPostId = req.params.postId;
     
-    Post.findOne({_id: requestedPostId}, function(err, post){
+    Post.findOne({_id: requestedPostId}).populate("comments").exec(function(err, post){
         //console.log(post.title);
         if(post){
             res.render("postdetails", {
                 accountType: req.user.account,
-                author: post.author,
-                title: post.title,
-                description: post.description,
-                company: post.company,
-                link : post.link
+                post: post
             });
         }
     });
@@ -240,7 +253,7 @@ app.post('/register', function(req, res){
   }
 );
 
-/**POST REQUEST FOR POST */  
+/**POST REQUEST FOR TO ADD POST */  
 app.post("/post", function(req, res){
   
   
@@ -256,8 +269,43 @@ app.post("/post", function(req, res){
     post.save(function(err){
         if (!err){
             res.redirect("/home");
+            //console.log("aaa");
         }
     });
+});
+
+/**POST REQUEST TO Comment on post */
+
+app.post('/posts/:id/comments', function(req,res){
+  //const text = req.body.text;
+  //const auther = req.user.name;
+  const comment = new Comment({
+    text: req.body.text,
+    auther: req.user.name
+  });
+  //console.log(req.params.id);
+  const idd = req.params.id.substring(1);
+  
+  Post.findOne({_id: idd}, function(err, post){
+    if(err){
+      console.log(err);
+      res.redirect("/home");
+    }else{
+      //console.log(comment);
+      comment.save(function(err){
+        if(err){
+          console.log(err);
+        }else{
+          post.comments.push(comment);
+          post.save();
+          //console.log(req.params.id);
+          res.redirect("/posts/" + idd);
+          //console.log("aaa");
+        }
+      });
+    }
+  });
+  
 });
 
 /**POST REQUEST TO DELETE POST */

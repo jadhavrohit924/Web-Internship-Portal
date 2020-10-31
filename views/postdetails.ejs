@@ -4,12 +4,26 @@
     <%- include('header'); -%>
 <% } %>
     <div class="container">
-        <h3><%= author %> <small> from <%= company %> </small></h3>
-        <h1><%= title %></h1>
-        <p><%= description %></p>
-        <button type="button" id="link" class="btn btn-primary" value="<%= link %>" onclick="redirect()" >Apply now</button>
+        <h3><%= post.author %> <small> from <%= post.company %> </small></h3>
+        <h1><%= post.title %></h1>
+        <p><%= post.description %></p>
+        <button type="button" id="link" class="btn btn-primary" value="<%= post.link %>" onclick="redirect()" >Apply now</button>
     </div>
 
+    <div class="container">
+        <% post.comments.forEach(function(comment){ %>
+            <p>
+                <strong> <%= comment.auther %> </strong> - <%= comment.text %>
+            </p>
+       <% }) %>
+    </div>
+    <form action="/posts/:<%= post._id %>/comments" method="post">
+        <div class="container">
+            <textarea name="text" id="" cols="80" rows="5"></textarea>
+            <button type="submit" id="" class="btn btn-primary">POST</button>
+        </div>
+    </form>
+    
     <script>
         function redirect(){
             const post_link = document.getElementById("link").value;
