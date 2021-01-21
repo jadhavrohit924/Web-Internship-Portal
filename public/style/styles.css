@@ -36,6 +36,8 @@ html {
   footer {
     background-color: #d9edf7;
   }
+
+  /*Fixed header and footer */
   
   /* STRUCTURE */
   
@@ -73,6 +75,11 @@ html {
   }
   
   
+
+  /* comments */
+  #view{
+    height: 200px;
+  }
   
   /* TABS */
   

@@ -7,22 +7,31 @@
         <h3><%= post.author %> <small> from <%= post.company %> </small></h3>
         <h1><%= post.title %></h1>
         <p><%= post.description %></p>
+        <br>
         <button type="button" id="link" class="btn btn-primary" value="<%= post.link %>" onclick="redirect()" >Apply now</button>
     </div>
-
-    <div class="container">
-        <% post.comments.forEach(function(comment){ %>
-            <p>
-                <strong> <%= comment.auther %> </strong> - <%= comment.text %>
-            </p>
-       <% }) %>
-    </div>
+    <br>
+    
+    
+        <div class="container well">
+        
+            <% post.comments.forEach(function(comment){ %>
+                <p>
+                    <strong> <%= comment.auther %> </strong> 
+                    <p><%= comment.text %></p>
+                </p>
+           <% }) %>
+        </div>
+        
+    
+    
     <form action="/posts/:<%= post._id %>/comments" method="post">
         <div class="container">
-            <textarea name="text" id="" cols="80" rows="5"></textarea>
-            <button type="submit" id="" class="btn btn-primary">POST</button>
+            <textarea name="text" class="form-control" rows="3"></textarea>
+            <br> <button type="submit " id="" class="btn btn-primary">Comment</button>
         </div>
     </form>
+    <br>
     
     <script>
         function redirect(){
@@ -31,6 +40,6 @@
         }
     </script>
 
+<%- include('footer'); -%>
 
 
-    

@@ -1,5 +1,11 @@
 <%- include('header'); -%>
 
+<style>
+  form{
+    margin-top: 1em;
+  }
+</style>
+
 <div class="container text-center">
     <h1>POSTS</h1>
     <hr>
@@ -15,6 +21,9 @@
             </p>
           </div>
         <div class="col-sm-2">
+            <form action="/updatePost/<%= post._id %>" method="get">
+                <button name="post_id" value="<%= post._id %>" class="btn btn-info" >UPDATE</button>
+            </form>
             <form action="/delete" method="post">
                 <button name="post_id" value="<%= post._id %>" class="btn btn-danger" >DELETE</button>
             </form>

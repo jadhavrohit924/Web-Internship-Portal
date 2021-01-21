@@ -149,12 +149,13 @@ app.get("/profile", function(req, res){
   if(req.user.account === "alumina"){
     Post.find({author: req.user.name}, function(err, posts){
       res.render("profile", {
+
           posts: posts
       });
     });
   }
   else{
-    res.send("Your not authorised to post!!");
+    res.send("Your not authorised !!");
   }
 });
 
@@ -188,6 +189,22 @@ app.get("/posts/:postId", function(req, res){
     });
 });
 
+/**get route to update */
+app.get("/updatePost/:post_id", function(req, res){
+  const postid = req.params.post_id;
+  //console.log(postid);
+  Post.findOne({_id:postid},function(err,post){
+    if(post){
+      
+      res.render("updatePost",{
+        post: post
+      });
+    }else{
+      console.log(err);
+    }
+  });
+  
+});
 
 
 /** post routes */
@@ -306,6 +323,26 @@ app.post('/posts/:id/comments', function(req,res){
     }
   });
   
+});
+
+/**POST REQUEST TO UPDATE POST */
+app.post('/update', function(req,res){
+  const id = req.body.id;
+  console.log(id);
+  const updatedPost = {
+      author : req.user.name,
+      company : req.user.company,
+      title : req.body.postTitle,
+      description : req.body.postDescription,
+      link : req.body.postLink
+  };
+  console.log(updatedPost);
+  Post.updateOne({_id: id},updatedPost,{ upsert: true }, function(err, post){
+    if(!err){
+      res.redirect("/profile");
+    }
+  });
+
 });
 
 /**POST REQUEST TO DELETE POST */
